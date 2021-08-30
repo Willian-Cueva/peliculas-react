@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Styles from "./Search.module.css";
 import { BiSearchAlt } from "react-icons/bi";
+import { useQuery } from "../hooks/useQuery";
 import { useHistory } from "react-router";
 
 export function Search() {
   const [searchText, setSearchText] = useState("");
   const history = useHistory();
+
+  const query = useQuery();
+  const search = query.get("search");
+
+  useEffect(() => {
+    setSearchText(search || "")
+  }, [search]);
+
   const handleSubmit = function (e) {
     e.preventDefault();
     history.push("/?search="+searchText);
